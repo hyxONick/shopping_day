@@ -5,7 +5,7 @@ import "reset-css"; // init css
 import "./assets/styles/global.scss" // UI global
 // UI component
 import App from './App';
-import Router from "./router/index_current"
+// import Router from "./router/index_current"
 import {BrowserRouter} from "react-router-dom"
 
 const root = ReactDOM.createRoot(
