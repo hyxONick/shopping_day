@@ -7,43 +7,62 @@ import {
     TeamOutlined,
     UserOutlined,
 } from '@ant-design/icons';
-import {useNavigate} from 'react-router-dom';
+import {useNavigate, useLocation} from 'react-router-dom';
 type MenuItem = Required<MenuProps>['items'][number];
 
-function getItem(
-    label: React.ReactNode,
-    key: React.Key,
-    icon?: React.ReactNode,
-    children?: MenuItem[],
-): MenuItem {
-    return {
-        key,
-        icon,
-        children,
-        label,
-    } as MenuItem;
-}
-
 const items: MenuItem[] = [
-    getItem('Option 1', '/page1', <PieChartOutlined />),
-    getItem('Option 2', '/page2', <DesktopOutlined />),
-    getItem('User', 'sub1', <UserOutlined />, [
-        getItem('Tom', '/page3'),
-        getItem('Bill', '/page4'),
-        getItem('Alex', '/page5'),
-    ]),
-    getItem('Team', 'sub2', <TeamOutlined />, [getItem('Team 1', '6'), getItem('Team 2', '8')]),
-    getItem('Files', '9', <FileOutlined />),
-];
+    {
+        label: "1",
+        key: "/page1",
+        icon: <PieChartOutlined />
+    },
+    {
+        label: "2",
+        key: "/page2",
+        icon: <DesktopOutlined />
+    },
+    {
+        label: "3",
+        key: "/page3",
+        icon: <UserOutlined />,
+        children: [
+            {label: '3-1', key: '/page3/1'},
+            {label: '3-2', key: '/page3/2'},
+            {label: '3-3', key: '/page3/3'}
+        ]
+    },
+    {
+        label: "4",
+        key: "/page4",
+        icon: <TeamOutlined />,
+        children: [
+            {label: '4-1', key: '/page4/1'},
+            {label: '4-2', key: '/page4/2'},
+        ]
+    },
+    {
+        label: "5",
+        key: "/page5",
+        icon: <FileOutlined />
+    },
+]
 
 const MainMenu: React.FC = () => {
-    const navigateTo = useNavigate()
+    const navigateTo = useNavigate();
+    const manageRoute = useLocation().pathname.split('manage')[1]; // manage route
     const menuClick = (e: {key: string}) => {
         console.log(e)
         navigateTo('/manage' + e.key);
     }
 
-    const [openKeys, setOpenKeys] = useState([''])
+    let firstOpenKey: string = '';
+    items.forEach((item) => {
+        if (item!['children'] && item!['children'].length && item!['children'].find((k:{key:string}) =>{ return  k.key === manageRoute})) {
+            firstOpenKey = item!.key as string;
+        }
+    })
+
+    const [openKeys, setOpenKeys] = useState([firstOpenKey])
     const handleOpenChange = (keys: string[]) => {
         setOpenKeys([keys[keys.length - 1]])
         console.log('openKeys', keys)
@@ -51,7 +70,7 @@ const MainMenu: React.FC = () => {
     return (
         <Menu
             theme="dark"
-            defaultSelectedKeys={['/page1']}
+            defaultSelectedKeys={[manageRoute]}
             mode="inline"
             items={items}
             onClick={menuClick}

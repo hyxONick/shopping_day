@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
-import { Breadcrumb, Layout, Menu, theme } from 'antd';
-import {Outlet, useNavigate} from 'react-router-dom';
+import { Breadcrumb, Layout, theme } from 'antd';
+import {Outlet} from 'react-router-dom';
 import MainMenu from "../components/MainMenu";
 const { Header, Content, Footer, Sider } = Layout;
 
