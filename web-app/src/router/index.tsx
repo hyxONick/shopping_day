@@ -4,6 +4,8 @@ import Loading from "../components/Loading";
 // import User from "../pages/User";
 import React, {lazy} from "react";
 import {Navigate} from "react-router-dom";
+import Page31 from "../pages/Page31";
+import Login from "../pages/Login";
 
 const About = lazy(() => import("../pages/About"))
 const User = lazy(() => import("../pages/User"))
@@ -19,6 +21,10 @@ const routes = [
     {
         path: "/home",
         element: <Home />
+    },
+    {
+        path: "/login",
+        element: <Login />
     },
     {
         path: "/about",
@@ -44,8 +50,16 @@ const routes = [
             {
                 path: "/manage/page2",
                 element: <Loading comp={<Page2 />} page="Page2" />
-            }
+            },
+            {
+                path: "/manage/page3/1",
+                element: <Loading comp={<Page31 />} page="Page3-1" />
+            },
         ]
+    },
+    {
+        path: '*',
+        element:  <Navigate to="/home" />
     }
 ]
 export default routes
